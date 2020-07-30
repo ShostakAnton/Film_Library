@@ -82,6 +82,9 @@ class Movie(models.Model):
     def get_absolute_url(self):
         return reverse('movie-detail', kwargs={"slug": self.url})
 
+    def get_review(self):  # возвращает список фильмов там где поле parent равно null
+        return self.reviews_set.filter(parent__isnull=True)     # вернуться только родительские отзывы к нашему фильму
+
     class Meta:
         verbose_name = "Фильм"
         verbose_name_plural = "Фильмы"
