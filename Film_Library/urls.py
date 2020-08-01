@@ -18,11 +18,11 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include("movies.urls"))
+    path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('', include("movies.urls")),
 ]
 
-if settings.DEBUG:      # джанго будет передавать файлы меда только при включенном дебаг-режиме
+if settings.DEBUG:  # джанго будет передавать файлы меда только при включенном дебаг-режиме
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
