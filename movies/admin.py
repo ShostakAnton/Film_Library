@@ -51,6 +51,7 @@ class MovieAdmin(admin.ModelAdmin):
     save_on_top = True  # панель сохранения вверху
     save_as = True  # кнопка "сохранить как новый обьект"
     list_editable = ("draft",)  # для редактирования полей прамо со списка
+    actions = ["publish", "unpublish"]      # добавление атрибутов в поле actions
     form = MovieAdminForm
     # fields = ("actors", "directors", "genres", "category")        # какие поля должны отображаться
     readonly_fields = ("get_image",)
@@ -78,6 +79,30 @@ class MovieAdmin(admin.ModelAdmin):
 
     def get_image(self, obj):
         return mark_safe(f'<img src={obj.poster.url} width="100" height="110"')
+
+    def unpublish(self, request, queryset):
+        """Снять с публикации"""
+        row_update = queryset.update(draft=True)  # обновляем запись draft
+        if row_update == 1:
+            message_bit = "1 запись была обновлена"
+        else:
+            message_bit = f"{row_update} записей были обновлены"
+        self.message_user(request, f"{message_bit}")
+
+    def publish(self, request, queryset):
+        """Опубликовать"""
+        row_update = queryset.update(draft=False)  # обновляем запись draft
+        if row_update == 1:
+            message_bit = "1 запись была обновлена"
+        else:
+            message_bit = f"{row_update} записей были обновлены"
+        self.message_user(request, f"{message_bit}")
+
+    publish.short_description = "Опубликовать"  # добавление нового столбца
+    publish.allowed_permissions = ('change',)  # у пользователя должны быть права на изменение данного поля
+
+    unpublish.short_description = "Снять с публикации"  # добавление нового столбца
+    unpublish.allowed_permissions = ('change',)  # у пользователя должны быть права на изменение данного поля
 
     get_image.short_description = "Постер"
 
