@@ -1,9 +1,19 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import View
-
 from .forms import ReviewForm
 from .models import *
+from django.db.models import Q
+
+
+class GenreYear:
+    """Жанры и года выхода фильмов"""
+
+    def get_genres(self):  # получение всех жанров
+        return Genre.objects.all()
+
+    def get_years(self):  # получение годов всех фильмов которые не в черновиках
+        return Movie.objects.filter(draft=False).values("year")
 
 
 # class MoviesView(View):
@@ -13,7 +23,7 @@ from .models import *
 #         movies = Movie.objects.all()
 #         return render(request, "movies/movie_list.html", {"movie_list": movies})
 
-class MoviesView(ListView):
+class MoviesView(GenreYear, ListView):
     """Список фильмов"""
 
     model = Movie
@@ -33,7 +43,7 @@ class MoviesView(ListView):
 #         movie = Movie.objects.get(url=slug)
 #         return render(request, 'movies/movie_detail.html', {'movie': movie})
 
-class MovieDetailView(DetailView):
+class MovieDetailView(GenreYear, DetailView):
     """Полное описание фильма"""
 
     model = Movie
@@ -62,8 +72,19 @@ class AddReview(View):
         return redirect(movie.get_absolute_url())
 
 
-class ActorView(DetailView):
+class ActorView(GenreYear, DetailView):
     """Вывод информации о актере"""
     model = Actor
     template_name = 'movies/actor.html'
     slug_field = "name"
+
+
+class FilterMoviesView(GenreYear, ListView):
+    """Фильтр фильмов"""
+
+    def get_queryset(self):
+        queryset = Movie.objects.filter(
+            Q(year__in=self.request.GET.getlist("year")) |
+            Q(genres__in=self.request.GET.getlist("genre"))
+        )
+        return queryset
