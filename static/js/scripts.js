@@ -11,15 +11,16 @@ function ajaxSend(url, params) {
         .catch(error => console.error(error))
 }
 
-const forms = document.querySelector('form[name=filter]');          // поиск формы по имени
-
-forms.addEventListener('submit', function (e) {
-    // Получаем данные из формы
-    e.preventDefault();     // блокировка отправки формы и перезагрущки страницы при нажатии на кнопку
-    let url = this.action;      // занесение информации с формы (action - атрибут формы)
-    let params = new URLSearchParams(new FormData(this)).toString();  // получение параметров
-    ajaxSend(url, params);
-});
+//Film filter
+// const forms = document.querySelector('form[name=filter]');          // поиск формы по имени
+//
+// forms.addEventListener('submit', function (e) {
+//     // Получаем данные из формы
+//     e.preventDefault();     // блокировка отправки формы и перезагрущки страницы при нажатии на кнопку
+//     let url = this.action;      // занесение информации с формы (action - атрибут формы)
+//     let params = new URLSearchParams(new FormData(this)).toString();  // получение параметров
+//     ajaxSend(url, params);
+// });
 
 function render(data) {
     // Рендер шаблона
