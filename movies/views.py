@@ -60,6 +60,7 @@ class MovieDetailView(GenreYear, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)  # заносим работу родительского метода get_context_data
         context["star_form"] = RatingForm()  # данному словарю добавляем ключ star_form и присваиваем значение с формы
+        context["form"] = ReviewForm()
         return context
 
 
