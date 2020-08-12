@@ -1,0 +1,2 @@
+django-admin makemessages -l en -e html         # создать локал для англ. яз. и искать их в html файлах
+django-admin compilemessages
