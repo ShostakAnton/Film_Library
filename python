@@ -1,0 +1,7 @@
+Using default language: ru
+Working on models: movies.Category, movies.Actor, movies.Genre, movies.Movie, movies.MovieShots
+Updating data of model '<class 'movies.models.Category'>'
+Updating data of model '<class 'movies.models.Actor'>'
+Updating data of model '<class 'movies.models.Genre'>'
+Updating data of model '<class 'movies.models.Movie'>'
+Updating data of model '<class 'movies.models.MovieShots'>'
